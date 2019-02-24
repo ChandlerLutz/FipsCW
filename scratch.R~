@@ -1,0 +1,29 @@
+## c:/Dropbox/PublicData/FipsCW/scratch.R
+
+##    Chandler Lutz
+##    Questions/comments: cl.eco@cbs.dk
+##    $Revisions:      1.0.0     $Date:  2019-02-23
+
+##Clear the workspace
+##Delete all objects and detach packages
+rm(list = ls())
+suppressWarnings(CLmisc::detach_all_packages())
+
+##Set working directory
+wd <- "c:/Dropbox/PublicData/FipsCW/"
+if (dir.exists(wd)) {
+  setwd(wd)
+} else {
+  ##wd has the wrong path, Assume only the first folder (e.g. c) is wrong
+  temp.wd <- getwd()
+  base.folder <- substr(temp.wd, 1, 1)
+  wd <- paste0(base.folder, substring(wd, 2))
+  setwd(wd)
+  rm(temp.wd, base.folder)
+}
+rm(wd)
+
+suppressMessages({library(CLmisc); library(sf)})
+
+sf.cnty.1990 <- readRDS("data-raw-shp/20-county1990_shapefile.rds")
+
