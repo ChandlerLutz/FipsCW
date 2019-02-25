@@ -79,5 +79,5 @@ cw.fips.2000.2010 <- copy(cnty.pop2000) %>%
 
 
 
-saveRDS(cw.fips.1990.2000, "RdsFiles/20-cs_fips_1990_2000.rds")
-saveRDS(cw.fips.2000.2010, "RdsFiles/20-cs_fips_1990_2000.rds")
+saveRDS(cw.fips.1990.2000, "RdsFiles/20-cw_fips_1990_2000.rds")
+saveRDS(cw.fips.2000.2010, "RdsFiles/20-cw_fips_2000_2010.rds")
