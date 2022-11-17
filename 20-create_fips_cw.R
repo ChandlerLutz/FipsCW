@@ -1,30 +1,15 @@
-## c:/Dropbox/PublicData/FipsCW/20-create_fips_cw.R
+## ./20-create_fips_cw.R
 
-##    Chandler Lutz
-##    Questions/comments: cl.eco@cbs.dk
-##    $Revisions:      1.0.0     $Date:  2019-02-24
 
 ##Clear the workspace
-##Delete all objects and detach packages
-rm(list = ls())
+rm(list = ls()) 
 suppressWarnings(CLmisc::detach_all_packages())
 
-##Set working directory
-wd <- "c:/Dropbox/PublicData/FipsCW/"
-if (dir.exists(wd)) {
-  setwd(wd)
-} else {
-  ##wd has the wrong path, Assume only the first folder (e.g. c) is wrong
-  temp.wd <- getwd()
-  base.folder <- substr(temp.wd, 1, 1)
-  wd <- paste0(base.folder, substring(wd, 2))
-  setwd(wd)
-  rm(temp.wd, base.folder)
-}
-rm(wd)
 
-suppressMessages({library(CLmisc); })
+##Set wd using the here package
+setwd(here::here("./"))
 
+suppressPackageStartupMessages({library(CLmisc); })
 
 ##The population data
 cnty.pop1990 <- readRDS("RdsFiles/10-census_cnty_pop_1990.rds")
@@ -33,6 +18,7 @@ cnty.pop2010 <- readRDS("RdsFiles/10-census_cnty_pop_2010.rds")
 
 ##Crosswalks based on
 ##https://www.census.gov/geo/reference/county-changes.html
+## Now see https://www.census.gov/programs-surveys/geography/technical-documentation/county-changes.html
 
 cw.fips.1990.2000 <- copy(cnty.pop1990) %>%
   .[, GEOID2000 := GEOID1990] %>%
@@ -75,7 +61,8 @@ cw.fips.2000.2010 <- copy(cnty.pop2000) %>%
   ##the colorado counties  -- merge Adams, Boulder, Jefferson, Weld (2000) --> Broomfield
   .[GEOID2000 %chin% c("08001", "08013", "08059", "08123"), GEOID2010 := "08014"] %>%
   ##Change clifton forge Virginia to be a part of Alleghany County
-  .[GEOID2000 == "51560", GEOID2010 := "51005"]
+  .[GEOID2000 == "51560", GEOID2010 := "51005"] %>%
+  .[, GEOID := NULL]
 
 
 
